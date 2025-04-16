@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Yasir Abdullah - Orthopedic Resident</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>tailwind.config={theme:{extend:{colors:{primary:'#2B6CB0',secondary:'#48BB78'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+    <style>
+        :where([class^="ri-"])::before { content: "\f3c2"; }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        .typing-cursor {
+            display: inline-block;
+            width: 3px;
+            background-color: #2B6CB0;
+            animation: blink 1s infinite;
+            margin-left: 4px;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        .timeline-item:not(:last-child)::before {
+            content: '';
+            position: absolute;
+            left: 14px;
+            top: 24px;
+            bottom: -24px;
+            width: 2px;
+            background-color: #E2E8F0;
+        }
+        
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        
+        .dark {
+            background-color: #1A202C;
+            color: #E2E8F0;
+        }
+        
+        .dark .card {
+            background-color: #2D3748;
+        }
+        
+        .scroll-top {
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .scroll-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .custom-switch {
+            position: relative;
+            display: inline-block;
+            width: 52px;
+            height: 26px;
+        }
+        
+        .custom-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #CBD5E0;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: #2B6CB0;
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .custom-radio {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .custom-radio-input {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #CBD5E0;
+            border-radius: 50%;
+            margin-right: 8px;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .custom-radio-input:checked {
+            border-color: #2B6CB0;
+        }
+        
+        .custom-radio-input:checked::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            background-color: #2B6CB0;
+            border-radius: 50%;
+        }
+        
+        .custom-checkbox {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .custom-checkbox-input {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #CBD5E0;
+            border-radius: 4px;
+            margin-right: 8px;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .custom-checkbox-input:checked {
+            background-color: #2B6CB0;
+            border-color: #2B6CB0;
+        }
+        
+        .custom-checkbox-input:checked::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 6px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+        
+        .hero-bg {
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 1) 40%, rgba(255, 255, 255, 0.8) 70%, rgba(255, 255, 255, 0.6) 100%);
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800">
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed top-0 left-0 w-full bg-white shadow-md z-50 transition-all duration-300">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-['Pacifico'] text-primary">Dr. Yasir</a>
+            
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#about" class="text-gray-700 hover:text-primary transition-colors">About</a>
+                <a href="#specialization" class="text-gray-700 hover:text-primary transition-colors">Specialization</a>
+                <a href="#experience" class="text-gray-700 hover:text-primary transition-colors">Experience</a>
+                <a href="#contact" class="text-gray-700 hover:text-primary transition-colors">Contact</a>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <label class="custom-switch">
+                    <input type="checkbox" id="darkModeToggle">
+                    <span class="slider"></span>
+                </label>
+                
+                <button id="mobileMenuBtn" class="md:hidden w-10 h-10 flex items-center justify-center text-gray-700">
+                    <i class="ri-menu-line ri-lg"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="md:hidden hidden bg-white shadow-lg absolute w-full">
+            <div class="container mx-auto px-6 py-3 flex flex-col space-y-3">
+                <a href="#about" class="py-2 text-gray-700 hover:text-primary transition-colors">About</a>
+                <a href="#specialization" class="py-2 text-gray-700 hover:text-primary transition-colors">Specialization</a>
+                <a href="#experience" class="py-2 text-gray-700 hover:text-primary transition-colors">Experience</a>
+                <a href="#contact" class="py-2 text-gray-700 hover:text-primary transition-colors">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-16 md:pt-32 md:pb-24 hero-bg" style="background-image: url('https://readdy.ai/api/search-image?query=professional%20medical%20doctor%20office%20with%20modern%20equipment%2C%20clean%20environment%2C%20medical%20instruments%20on%20the%20wall%2C%20soft%20lighting%2C%20blue%20and%20white%20color%20scheme%2C%20minimal%20style%2C%20high%20quality%20professional%20photo&width=1200&height=600&seq=1&orientation=landscape')">
+        <div class="container mx-auto px-6 w-full">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="w-full md:w-1/2 mb-10 md:mb-0">
+                    <div class="bg-white/80 p-8 rounded-lg shadow-lg backdrop-blur-sm max-w-lg">
+                        <div class="mb-4">
+                            <span class="inline-block px-3 py-1 text-xs font-medium bg-blue-100 text-primary rounded-full mb-2">Sweden → Dubai, UAE</span>
+                        </div>
+                        
+                        <h1 class="text-4xl md:text-5xl font-bold mb-2">
+                            <span id="typing-text">Dr. Yasir Abdullah</span>
+                            <span class="typing-cursor">|</span>
+                        </h1>
+                        
+                        <h2 class="text-xl md:text-2xl text-gray-600 mb-6">
+                            <span class="text-primary font-medium">Aspiring Orthopedist</span> | Third-Year Resident
+                        </h2>
+                        
+                        <p class="text-gray-700 mb-8">
+                            Currently in my third term at Gulf Medical University, specializing in Orthopedics. Passionate about advancing my knowledge in musculoskeletal conditions and surgical techniques.
+                        </p>
+                        
+                        <div class="flex flex-wrap gap-4 mb-8">
+                            <a href="#contact" class="px-6 py-3 bg-primary text-white font-medium rounded-button shadow-md hover:bg-primary/90 transition-all whitespace-nowrap">
+                                <i class="ri-calendar-line mr-2"></i>Book Appointment
+                            </a>
+                            <a href="mailto:yasseralsaaidy274@gmail.com" class="px-6 py-3 bg-white text-primary font-medium border border-primary rounded-button hover:bg-gray-50 transition-all whitespace-nowrap">
+                                <i class="ri-mail-line mr-2"></i>Contact Me
+                            </a>
+                        </div>
+                        
+                        <div class="flex space-x-4">
+                            <a href="https://instagram.com/Yaser_abdul1ah" target="_blank" class="w-10 h-10 flex items-center justify-center bg-gray-100 text-gray-600 rounded-full hover:bg-primary hover:text-white transition-all">
+                                <i class="ri-instagram-line"></i>
+                            </a>
+                            <a href="#" target="_blank" class="w-10 h-10 flex items-center justify-center bg-gray-100 text-gray-600 rounded-full hover:bg-primary hover:text-white transition-all">
+                                <i class="ri-linkedin-line"></i>
+                            </a>
+                            <a href="mailto:yasseralsaaidy274@gmail.com" class="w-10 h-10 flex items-center justify-center bg-gray-100 text-gray-600 rounded-full hover:bg-primary hover:text-white transition-all">
+                                <i class="ri-mail-line"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">About Me</h2>
+                <div class="w-20 h-1 bg-primary mx-auto"></div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row gap-10 items-center">
+                <div class="w-full md:w-1/2 fade-in">
+                    <h3 class="text-2xl font-semibold mb-4">My Journey</h3>
+                    <p class="text-gray-700 mb-6">
+                        Born and raised in Sweden, I developed a passion for medicine at an early age. After completing my medical education, I chose to pursue my residency at Gulf Medical University in Dubai, where I'm currently in my third year specializing in Orthopedics.
+                    </p>
+                    <p class="text-gray-700 mb-6">
+                        My clinical focus is on diagnosing and treating musculoskeletal conditions, with a particular interest in sports medicine and joint replacement surgeries. I believe in a patient-centered approach that combines the latest medical advances with compassionate care.
+                    </p>
+                    <p class="text-gray-700">
+                        Outside of my medical practice, I enjoy staying active through swimming and hiking, which helps me better understand the physical challenges my patients face. I'm also dedicated to continuing education and regularly attend international orthopedic conferences.
+                    </p>
+                </div>
+                
+                <div class="w-full md:w-1/2 grid grid-cols-1 md:grid-cols-2 gap-6 fade-in">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <div class="w-12 h-12 flex items-center justify-center bg-blue-100 text-primary rounded-full mb-4">
+                            <i class="ri-hospital-line ri-lg"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-2">Current Institution</h4>
+                        <p class="text-gray-600">Gulf Medical University, Dubai, UAE</p>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <div class="w-12 h-12 flex items-center justify-center bg-blue-100 text-primary rounded-full mb-4">
+                            <i class="ri-stethoscope-line ri-lg"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-2">Specialization</h4>
+                        <p class="text-gray-600">Orthopedics, 3rd Year Resident</p>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <div class="w-12 h-12 flex items-center justify-center bg-blue-100 text-primary rounded-full mb-4">
+                            <i class="ri-calendar-check-line ri-lg"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-2">Experience</h4>
+                        <p class="text-gray-600">3+ years of clinical practice</p>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <div class="w-12 h-12 flex items-center justify-center bg-blue-100 text-primary rounded-full mb-4">
+                            <i class="ri-map-pin-line ri-lg"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-2">Location</h4>
+                        <p class="text-gray-600">Dubai Medical District, UAE</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Specialization Section -->
+    <section id="specialization" class="py-16">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">My Specializations</h2>
+                <div class="w-20 h-1 bg-primary mx-auto mb-6"></div>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    As an orthopedic specialist, I focus on the diagnosis, treatment, and prevention of conditions affecting the musculoskeletal system.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all fade-in">
+                    <div class="w-14 h-14 flex items-center justify-center bg-blue-100 text-primary rounded-full mb-4">
+                        <i class="ri-bone-line ri-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Joint Replacement</h3>
+                    <p class="text-gray-600">
+                        Specializing in knee and hip replacement surgeries, utilizing the latest minimally invasive techniques for faster recovery and better outcomes.
+                    </p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all fade-in">
+                    <div class="w-14 h-14 flex items-center justify-center bg-blue-100 text-primary rounded-full mb-4">
+                        <i class="ri-run-line ri-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Sports Medicine</h3>
+                    <p class="text-gray-600">
+                        Treatment and rehabilitation of sports-related injuries, helping athletes return to their activities safely and effectively.
+                    </p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all fade-in">
+                    <div class="w-14 h-14 flex items-center justify-center bg-blue-100 text-primary rounded-full mb-4">
+                        <i class="ri-hand-heart-line ri-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Hand & Wrist Surgery</h3>
+                    <p class="text-gray-600">
+                        Precise surgical interventions for conditions affecting the hand and wrist, including carpal tunnel syndrome and tendon repairs.
+                    </p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all fade-in">
+                    <div class="w-14 h-14 flex items-center justify-center bg-blue-100 text-primary rounded-full mb-4">
+                        <i class="ri-spine-line ri-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Spine Disorders</h3>
+                    <p class="text-gray-600">
+                        Diagnosis and treatment of various spine conditions, including herniated discs, spinal stenosis, and scoliosis.
+                    </p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all fade-in">
+                    <div class="w-14 h-14 flex items-center justify-center bg-blue-100 text-primary rounded-full mb-4">
+                        <i class="ri-heart-pulse-line ri-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Trauma Care</h3>
+                    <p class="text-gray-600">
+                        Emergency treatment of fractures, dislocations, and other traumatic injuries to bones, joints, and soft tissues.
+                    </p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all fade-in">
+                    <div class="w-14 h-14 flex items-center justify-center bg-blue-100 text-primary rounded-full mb-4">
+                        <i class="ri-microscope-line ri-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Research & Innovation</h3>
+                    <p class="text-gray-600">
+                        Actively involved in orthopedic research, focusing on innovative treatment methods and improved surgical outcomes.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Clinical Experience</h2>
+                <div class="w-20 h-1 bg-primary mx-auto mb-6"></div>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    My professional journey in the field of orthopedics and medical practice.
+                </p>
+            </div>
+            
+            <div class="max-w-3xl mx-auto">
+                <div class="relative pl-10 pb-10 timeline-item fade-in">
+                    <div class="absolute left-0 top-0 w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white">
+                        <i class="ri-hospital-line"></i>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <span class="inline-block px-3 py-1 text-xs font-medium bg-blue-100 text-primary rounded-full mb-2">2023 - Present</span>
+                        <h3 class="text-xl font-semibold mb-2">Orthopedic Resident</h3>
+                        <h4 class="text-gray-600 mb-3">Gulf Medical University Hospital, Dubai</h4>
+                        <p class="text-gray-700">
+                            Currently completing my third year of residency, focusing on orthopedic surgery and patient care. Actively participating in surgical procedures under supervision and managing pre and post-operative care.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="relative pl-10 pb-10 timeline-item fade-in">
+                    <div class="absolute left-0 top-0 w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white">
+                        <i class="ri-hospital-line"></i>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <span class="inline-block px-3 py-1 text-xs font-medium bg-blue-100 text-primary rounded-full mb-2">2022 - 2023</span>
+                        <h3 class="text-xl font-semibold mb-2">Junior Resident</h3>
+                        <h4 class="text-gray-600 mb-3">Dubai Health Authority</h4>
+                        <p class="text-gray-700">
+                            Completed rotations in emergency medicine, internal medicine, and general surgery. Gained valuable experience in patient assessment, diagnosis, and treatment planning.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="relative pl-10 pb-10 timeline-item fade-in">
+                    <div class="absolute left-0 top-0 w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white">
+                        <i class="ri-hospital-line"></i>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <span class="inline-block px-3 py-1 text-xs font-medium bg-blue-100 text-primary rounded-full mb-2">2021 - 2022</span>
+                        <h3 class="text-xl font-semibold mb-2">Medical Intern</h3>
+                        <h4 class="text-gray-600 mb-3">Stockholm University Hospital, Sweden</h4>
+                        <p class="text-gray-700">
+                            Completed a comprehensive internship program covering various medical specialties. Developed strong clinical skills and a foundation in patient care and medical practice.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="relative pl-10 timeline-item fade-in">
+                    <div class="absolute left-0 top-0 w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white">
+                        <i class="ri-graduation-cap-line"></i>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <span class="inline-block px-3 py-1 text-xs font-medium bg-blue-100 text-primary rounded-full mb-2">2015 - 2021</span>
+                        <h3 class="text-xl font-semibold mb-2">Doctor of Medicine (M.D.)</h3>
+                        <h4 class="text-gray-600 mb-3">Karolinska Institute, Stockholm, Sweden</h4>
+                        <p class="text-gray-700">
+                            Completed medical education with honors. Participated in research projects focused on orthopedic medicine and developed a strong foundation in medical sciences.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Get In Touch</h2>
+                <div class="w-20 h-1 bg-primary mx-auto mb-6"></div>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Feel free to reach out for consultations, appointments, or any inquiries regarding orthopedic care.
+                </p>
+            </div>
+            
+            <div class="flex flex-col md:flex-row gap-10">
+                <div class="w-full md:w-1/2 fade-in">
+                    <form id="contactForm" class="bg-white p-8 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold mb-6">Send Me a Message</h3>
+                        
+                        <div class="mb-6">
+                            <label for="name" class="block text-gray-700 mb-2">Full Name</label>
+                            <input type="text" id="name" class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="Your name" required>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="email" class="block text-gray-700 mb-2">Email Address</label>
+                            <input type="email" id="email" class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="Your email" required>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="subject" class="block text-gray-700 mb-2">Subject</label>
+                            <select id="subject" class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary pr-8">
+                                <option value="consultation">Consultation Request</option>
+                                <option value="appointment">Appointment Booking</option>
+                                <option value="inquiry">General Inquiry</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="message" class="block text-gray-700 mb-2">Message</label>
+                            <textarea id="message" rows="5" class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="Your message" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="w-full py-3 bg-primary text-white font-medium rounded-button shadow-md hover:bg-primary/90 transition-all whitespace-nowrap">
+                            <i class="ri-send-plane-line mr-2"></i>Send Message
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="w-full md:w-1/2 fade-in">
+                    <div class="bg-white p-8 rounded-lg shadow-md h-full">
+                        <h3 class="text-2xl font-semibold mb-6">Contact Information</h3>
+                        
+                        <div class="mb-8">
+                            <div class="flex items-start mb-4">
+                                <div class="w-10 h-10 flex items-center justify-center bg-blue-100 text-primary rounded-full mr-4 mt-1">
+                                    <i class="ri-mail-line"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-medium mb-1">Email</h4>
+                                    <a href="mailto:yasseralsaaidy274@gmail.com" class="text-gray-600 hover:text-primary transition-colors">yasseralsaaidy274@gmail.com</a>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start mb-4">
+                                <div class="w-10 h-10 flex items-center justify-center bg-blue-100 text-primary rounded-full mr-4 mt-1">
+                                    <i class="ri-map-pin-line"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-medium mb-1">Location</h4>
+                                    <p class="text-gray-600">Gulf Medical University Hospital, Dubai Healthcare City, UAE</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start mb-4">
+                                <div class="w-10 h-10 flex items-center justify-center bg-blue-100 text-primary rounded-full mr-4 mt-1">
+                                    <i class="ri-time-line"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-medium mb-1">Working Hours</h4>
+                                    <p class="text-gray-600">Monday - Friday: 9:00 AM - 5:00 PM</p>
+                                    <p class="text-gray-600">Saturday: 10:00 AM - 2:00 PM</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-lg font-medium mb-4">Connect With Me</h4>
+                            <div class="flex space-x-4">
+                                <a href="https://instagram.com/Yaser_abdul1ah" target="_blank" class="w-12 h-12 flex items-center justify-center bg-gray-100 text-gray-600 rounded-full hover:bg-primary hover:text-white transition-all">
+                                    <i class="ri-instagram-line ri-lg"></i>
+                                </a>
+                                <a href="#" target="_blank" class="w-12 h-12 flex items-center justify-center bg-gray-100 text-gray-600 rounded-full hover:bg-primary hover:text-white transition-all">
+                                    <i class="ri-linkedin-line ri-lg"></i>
+                                </a>
+                                <a href="mailto:yasseralsaaidy274@gmail.com" class="w-12 h-12 flex items-center justify-center bg-gray-100 text-gray-600 rounded-full hover:bg-primary hover:text-white transition-all">
+                                    <i class="ri-mail-line ri-lg"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 pt-8 border-t border-gray-200">
+                            <a href="#" class="block py-3 bg-white text-primary font-medium border border-primary rounded-button text-center hover:bg-gray-50 transition-all whitespace-nowrap">
+                                <i class="ri-file-text-line mr-2"></i>Download CV
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <a href="#" class="text-2xl font-['Pacifico'] text-white">Dr. Yasir</a>
+                    <p class="text-gray-400 mt-2">Orthopedic Specialist</p>
+                </div>
+                
+                <div class="flex flex-wrap justify-center gap-6">
+                    <a href="#about" class="text-gray-400 hover:text-white transition-colors">About</a>
+                    <a href="#specialization" class="text-gray-400 hover:text-white transition-colors">Specialization</a>
+                    <a href="#experience" class="text-gray-400 hover:text-white transition-colors">Experience</a>
+                    <a href="#contact" class="text-gray-400 hover:text-white transition-colors">Contact</a>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm mb-4 md:mb-0">
+                    &copy; 2025 Dr. Yasir Abdullah. All rights reserved.
+                </p>
+                
+                <div class="flex space-x-4">
+                    <a href="https://instagram.com/Yaser_abdul1ah" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="ri-instagram-line ri-lg"></i>
+                    </a>
+                    <a href="#" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="ri-linkedin-line ri-lg"></i>
+                    </a>
+                    <a href="mailto:yasseralsaaidy274@gmail.com" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="ri-mail-line ri-lg"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollTopBtn" class="fixed bottom-6 right-6 w-12 h-12 bg-primary text-white rounded-full shadow-lg flex items-center justify-center opacity-0 invisible transition-all z-50 scroll-top">
+        <i class="ri-arrow-up-line ri-lg"></i>
+    </button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Typing Animation
+            const text = "Dr. Yasir Abdullah";
+            const typingElement = document.getElementById('typing-text');
+            let i = 0;
+            
+            function typeWriter() {
+                if (i < text.length) {
+                    typingElement.textContent = text.substring(0, i + 1);
+                    i++;
+                    setTimeout(typeWriter, 100);
+                }
+            }
+            
+            typeWriter();
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile Menu Toggle
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // Close mobile menu when clicking on a link
+            const mobileLinks = mobileMenu.querySelectorAll('a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Smooth Scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Scroll to Top Button
+            const scrollTopBtn = document.getElementById('scrollTopBtn');
+            
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    scrollTopBtn.classList.add('active');
+                } else {
+                    scrollTopBtn.classList.remove('active');
+                }
+            });
+            
+            scrollTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Scroll Animation
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            function checkFade() {
+                fadeElements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const elementVisible = 150;
+                    
+                    if (elementTop < window.innerHeight - elementVisible) {
+                        element.classList.add('visible');
+                    }
+                });
+            }
+            
+            window.addEventListener('scroll', checkFade);
+            checkFade(); // Check on load
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navbar Scroll Effect
+            const navbar = document.getElementById('navbar');
+            
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 50) {
+                    navbar.classList.add('py-2');
+                    navbar.classList.add('shadow-lg');
+                } else {
+                    navbar.classList.remove('py-2');
+                    navbar.classList.remove('shadow-lg');
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Dark Mode Toggle
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const body = document.body;
+            
+            // Check for saved theme preference
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                body.classList.add('dark');
+                darkModeToggle.checked = true;
+            }
+            
+            darkModeToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    body.classList.add('dark');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    body.classList.remove('dark');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Form Validation
+            const contactForm = document.getElementById('contactForm');
+            
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const message = document.getElementById('message').value;
+                
+                if (!name || !email || !message) {
+                    alert('Please fill in all required fields.');
+                    return;
+                }
+                
+                // Email validation
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    alert('Please enter a valid email address.');
+                    return;
+                }
+                
+                // Form submission would go here
+                alert('Thank you for your message! I will get back to you soon.');
+                contactForm.reset();
+            });
+        });
+    </script>
+</body>
+</html>
