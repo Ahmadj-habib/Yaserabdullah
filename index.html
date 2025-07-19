@@ -916,29 +916,22 @@ document.addEventListener('DOMContentLoaded', function() {
   closeLoginModal.addEventListener('click', () => {
       loginModal.classList.add('hidden');
   });
-  loginForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
-      if (username === 'Yasseralsaaidy274@gmail.com' && password === 'Yaser_abdul1ah') {
-          loginModal.classList.add('hidden');
-          if (!dashboardLoaded) {
-              const dashboardDiv = document.createElement('div');
-              dashboardDiv.id = 'dashboard';
-              dashboardDiv.className = 'fixed inset-0 bg-gray-50 z-50 overflow-y-auto';
-              document.body.appendChild(dashboardDiv);
-              fetch('dashboard.html')
-                .then(res => res.text())
-                .then(html => {
-                  dashboardDiv.innerHTML = html;
-                  // Attach logout event
-                  dashboardDiv.querySelector('#logoutBtn').addEventListener('click', () => {
-                    dashboardDiv.remove();
-                    dashboardLoaded = false;
-                  });
-                });
-              dashboardLoaded = true;
-          }
+loginForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+
+  if (username === 'Yasseralsaaidy274@gmail.com' && password === 'Yaser_abdul1ah') {
+    window.location.href = 'dashboard.html'; // ✅ Redirect to dashboard!
+  } else {
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'text-red-500 text-sm mt-2';
+    errorDiv.textContent = 'Invalid credentials. Please try again.';
+    loginForm.appendChild(errorDiv);
+    setTimeout(() => errorDiv.remove(), 3000);
+  }
+});
+
       } else {
           const errorDiv = document.createElement('div');
           errorDiv.className = 'text-red-500 text-sm mt-2';
