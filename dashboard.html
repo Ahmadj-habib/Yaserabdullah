@@ -1,41 +1,804 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Dashboard - Dr. Yasir</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" href="favicon.ico" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    /* Insert ALL your CSS styles here — from your original HTML */
-    body {
-      font-family: "Inter", sans-serif;
-      background: #f6f8fa;
-    }
-    /* (leave all your sidebar, dashboard, button styles, etc.) */
-    /* This can be copy/pasted from what you already had — or if easier I can paste the full CSS again */
-  </style>
+<meta charset="UTF-8">
+<title>Dashboard - Dr. Yasir</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='16' cy='16' r='16' fill='%230F172A'/%3E%3Ctext x='8' y='22' font-family='Playfair Display, serif' font-size='14' font-weight='bold' fill='white'%3EY%3C/text%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+body { font-family: 'Inter', sans-serif; background: #f6f8fa; }
+.sidebar {
+  width: 220px;
+  background: #fff;
+  border-right: 1px solid #e5e7eb;
+  min-height: 100vh;
+}
+.logo-circle { width: 44px; height: 44px; border-radius: 50%; background: #0F172A; display: flex; align-items: center; justify-content: center; }
+.logo-circle svg { width: 32px; height: 32px; }
+.sidebar-link { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.25rem; border-radius: 0.75rem; color: #334155; font-weight: 500; transition: background 0.2s, color 0.2s; }
+.sidebar-link.active, .sidebar-link:hover { background: #f1f5f9; color: #0F172A; }
+.sidebar-link i { font-size: 1.3rem; }
+.card { background: #fff; border-radius: 1rem; box-shadow: 0 2px 12px 0 rgba(0,0,0,0.04); padding: 1.5rem; }
+.edit-btn, .add-btn { color: #0F172A; background: #f1f5f9; border-radius: 0.5rem; padding: 0.25rem 0.75rem; font-size: 0.95rem; margin-left: 0.5rem; cursor: pointer; }
+.edit-btn:hover, .add-btn:hover { background: #e2e8f0; }
+input, textarea, select { border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 0.5rem; width: 100%; margin-top: 0.25rem; }
+.modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; z-index: 50; }
+.modal { background: #fff; border-radius: 1rem; padding: 2rem; min-width: 320px; max-width: 90vw; box-shadow: 0 8px 32px rgba(0,0,0,0.12); }
+.close-modal { position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.5rem; color: #64748b; cursor: pointer; }
+.theme-switch { cursor: pointer; }
+::-webkit-scrollbar { width: 8px; background: #f1f5f9; }
+::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 8px; }
+@media (max-width: 900px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    z-index: 60;
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+    box-shadow: 2px 0 12px rgba(0,0,0,0.08);
+    width: 220px;
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.2);
+    z-index: 59;
+    display: none;
+  }
+  .sidebar-overlay.active {
+    display: block;
+  }
+  .sidebar-toggle {
+    display: flex !important;
+  }
+  .dashboard-main {
+    padding: 1rem;
+  }
+  .dashboard-cards {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+}
+.dashboard-main {
+  flex: 1;
+  padding: 32px 32px 32px 32px;
+  background: #f6f8fa;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+.dashboard-box {
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 2px 12px 0 rgba(0,0,0,0.04);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  width: 100%;
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+}
+@media (max-width: 1200px) {
+  .dashboard-cards {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 900px) {
+  .dashboard-layout {
+    flex-direction: column;
+  }
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    z-index: 60;
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+    box-shadow: 2px 0 12px rgba(0,0,0,0.08);
+    width: 220px;
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.2);
+    z-index: 59;
+    display: none;
+  }
+  .sidebar-overlay.active {
+    display: block;
+  }
+  .sidebar-toggle {
+    display: flex !important;
+  }
+  .dashboard-main {
+    padding: 1rem;
+  }
+  .dashboard-cards {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+</style>
 </head>
 <body>
-  <div class="sidebar-toggle" id="sidebarToggle" aria-label="Open menu">
-    <i class="ri-menu-line"></i>
-  </div>
-  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+<div class="sidebar-toggle" id="sidebarToggle" aria-label="Open menu">
+  <i class="ri-menu-line"></i>
+</div>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<div class="dashboard-layout">
+  <!-- Sidebar -->
+  <aside class="sidebar flex flex-col py-6 px-2" id="sidebar">
+    <div class="flex items-center gap-3 px-4 mb-8">
+      <span class="logo-circle">
+        <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#0F172A"/><text x="8" y="22" font-family="Playfair Display, serif" font-size="14" font-weight="bold" fill="white">Y</text></svg>
+      </span>
+      <span class="font-bold text-lg text-[#0F172A]">Dr. Yasir</span>
+    </div>
+    <nav class="flex flex-col gap-2">
+      <a href="#" class="sidebar-link active"><i class="ri-dashboard-line"></i>Dashboard</a>
+      <a href="#" class="sidebar-link" id="profileBtn"><i class="ri-user-settings-line"></i>Profile</a>
+      <a href="#" class="sidebar-link" id="appointmentsBtn"><i class="ri-calendar-2-line"></i>Appointments</a>
+      <a href="#" class="sidebar-link" id="patientsBtn"><i class="ri-user-line"></i>Patients</a>
+      <a href="#" class="sidebar-link" id="reportsBtn"><i class="ri-file-list-3-line"></i>Reports</a>
+      <a href="#" class="sidebar-link" id="tasksBtn"><i class="ri-task-line"></i>Tasks</a>
+      <a href="#" class="sidebar-link" id="analyticsBtn"><i class="ri-bar-chart-line"></i>Analytics</a>
+      <a href="#" class="sidebar-link" id="notificationsBtn"><i class="ri-notification-3-line"></i>Notifications</a>
+      <a href="#" class="sidebar-link" id="settingsBtn"><i class="ri-settings-3-line"></i>Settings</a>
+      <a href="#" class="sidebar-link" id="logoutBtn"><i class="ri-logout-box-line"></i>Logout</a>
+    </nav>
+    <div class="mt-auto px-4 pt-8">
+      <button class="theme-switch flex items-center gap-2 text-sm text-[#64748b] hover:text-[#0F172A]">
+        <i class="ri-moon-line"></i> Switch Theme
+      </button>
+    </div>
+  </aside>
+  <!-- Main Content -->
+  <main class="dashboard-main">
+    <div>
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+        <div>
+          <h1 class="text-3xl font-bold font-['Playfair_Display'] text-[#0F172A]">Welcome, Dr. Yasir</h1>
+          <p class="text-gray-500 mt-1">Your personalized orthopedic dashboard</p>
+        </div>
+        <div class="flex gap-3">
+          <input type="text" id="searchInput" placeholder="Search..." class="border px-3 py-2 rounded-lg text-sm" />
+          <button class="add-btn" id="quickAddBtn"><i class="ri-add-line"></i>Quick Add</button>
+          <button class="add-btn" id="notifBtn"><i class="ri-notification-3-line"></i></button>
+        </div>
+      </div>
+      <!-- Cards -->
+      <div class="dashboard-cards">
+        <div class="card flex flex-col">
+          <div class="flex items-center justify-between mb-2">
+            <span class="flex items-center gap-2 text-gray-500"><i class="ri-calendar-2-line text-[#0F172A]"></i>Appointments</span>
+            <button class="edit-btn" onclick="openEditModal('appointments')"><i class="ri-edit-line"></i>Edit</button>
+          </div>
+          <div class="text-3xl font-bold text-[#0F172A]" id="appointmentsCount">12</div>
+          <div class="text-gray-500 text-sm">Scheduled for today</div>
+        </div>
+        <div class="card flex flex-col">
+          <div class="flex items-center justify-between mb-2">
+            <span class="flex items-center gap-2 text-gray-500"><i class="ri-user-line text-[#0F172A]"></i>Patients</span>
+            <button class="edit-btn" onclick="openEditModal('patients')"><i class="ri-edit-line"></i>Edit</button>
+          </div>
+          <div class="text-3xl font-bold text-[#0F172A]" id="patientsCount">156</div>
+          <div class="text-gray-500 text-sm">Total patients</div>
+        </div>
+        <div class="card flex flex-col">
+          <div class="flex items-center justify-between mb-2">
+            <span class="flex items-center gap-2 text-gray-500"><i class="ri-file-list-3-line text-[#0F172A]"></i>Reports</span>
+            <button class="edit-btn" onclick="openEditModal('reports')"><i class="ri-edit-line"></i>Edit</button>
+          </div>
+          <div class="text-3xl font-bold text-[#0F172A]" id="reportsCount">28</div>
+          <div class="text-gray-500 text-sm">Pending reviews</div>
+        </div>
+        <div class="card flex flex-col">
+          <div class="flex items-center justify-between mb-2">
+            <span class="flex items-center gap-2 text-gray-500"><i class="ri-bar-chart-line text-[#0F172A]"></i>Analytics</span>
+            <button class="edit-btn" onclick="openEditModal('analytics')"><i class="ri-edit-line"></i>Edit</button>
+          </div>
+          <div class="text-3xl font-bold text-[#0F172A]" id="analyticsCount">92%</div>
+          <div class="text-gray-500 text-sm">Patient satisfaction</div>
+        </div>
+      </div>
+      <!-- Each dashboard feature in its own box -->
+      <div class="dashboard-box">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-xl font-semibold">Tasks</h3>
+          <button class="add-btn" onclick="openTaskModal()"><i class="ri-add-line"></i>Add Task</button>
+        </div>
+        <ul id="tasksList" class="space-y-3"></ul>
+      </div>
+      <div class="dashboard-box">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-xl font-semibold">Recent Appointments</h3>
+          <button class="add-btn" onclick="openAppointmentModal()"><i class="ri-add-line"></i>Add Appointment</button>
+        </div>
+        <ul id="appointmentsList" class="space-y-3"></ul>
+      </div>
+      <div class="dashboard-box">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-xl font-semibold">Patients</h3>
+          <button class="add-btn" onclick="openPatientModal()"><i class="ri-add-line"></i>Add Patient</button>
+        </div>
+        <ul id="patientsList" class="space-y-3"></ul>
+      </div>
+      <div class="dashboard-box">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-xl font-semibold">Reports</h3>
+          <button class="add-btn" onclick="openReportModal()"><i class="ri-add-line"></i>Add Report</button>
+        </div>
+        <ul id="reportsList" class="space-y-3"></ul>
+      </div>
+      <div class="dashboard-box">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-xl font-semibold">Notifications</h3>
+          <button class="add-btn" onclick="openNotifModal()"><i class="ri-add-line"></i>Add Notification</button>
+        </div>
+        <ul id="notificationsList" class="space-y-3"></ul>
+      </div>
+      <div class="dashboard-box">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-xl font-semibold">Profile & Settings</h3>
+          <button class="edit-btn" onclick="openProfileModal()"><i class="ri-edit-line"></i>Edit</button>
+        </div>
+        <div id="profileInfo">
+          <div class="flex items-center gap-4 mb-4">
+            <span class="logo-circle">
+              <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#0F172A"/><text x="8" y="22" font-family="Playfair Display, serif" font-size="14" font-weight="bold" fill="white">Y</text></svg>
+            </span>
+            <div>
+              <div class="font-bold text-lg text-[#0F172A]" id="profileName">Dr. Yasir Abdullah</div>
+              <div class="text-gray-500 text-sm" id="profileTitle">Orthopedic Resident</div>
+            </div>
+          </div>
+          <div class="text-gray-600 mb-2" id="profileEmail"><i class="ri-mail-line"></i> yasseralsaaidy274@gmail.com</div>
+          <div class="text-gray-600 mb-2" id="profileLocation"><i class="ri-map-pin-line"></i> Dubai, UAE</div>
+          <div class="text-gray-600 mb-2" id="profilePhone"><i class="ri-phone-line"></i> +971 50 123 4567</div>
+        </div>
+      </div>
+      <div class="dashboard-box">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-xl font-semibold">Contacts</h3>
+        </div>
+        <ul id="contactsList" class="space-y-3"></ul>
+      </div>
+    </div>
+  </main>
+</div>
+<!-- Modals -->
+<div id="modalContainer"></div>
+<script>
+// Demo data
+let tasks = [
+  { text: "Review patient files", done: false },
+  { text: "Update medical records", done: false },
+  { text: "Prepare for tomorrow's surgery", done: false }
+];
+let appointments = [
+  { name: "Sarah Johnson", type: "Knee Consultation", time: "2:30 PM" },
+  { name: "Michael Chen", type: "Follow-up", time: "3:45 PM" }
+];
+let patients = [
+  { name: "Sarah Johnson", age: 32, condition: "Knee Pain" },
+  { name: "Michael Chen", age: 41, condition: "Post-op Follow-up" }
+];
+let reports = [
+  { title: "MRI Results", status: "Pending" },
+  { title: "Blood Test", status: "Reviewed" }
+];
+let notifications = [
+  { message: "New appointment scheduled", time: "Today" },
+  { message: "Patient report uploaded", time: "Yesterday" }
+];
+let profile = {
+  name: "Dr. Yasir Abdullah",
+  title: "Orthopedic Resident",
+  email: "yasseralsaaidy274@gmail.com",
+  location: "Dubai, UAE",
+  phone: "+971 50 123 4567"
+};
 
-  <!-- Start of dashboard layout -->
-  <div class="dashboard-layout">
-    <!-- Sidebar and content here (you already have it) -->
-    <!-- Paste all your dashboard-side sections, boxes, counts, etc. -->
-    <!-- Don’t change anything in DOM structure -->
-  </div>
+// Render functions
+function renderTasks() {
+  const ul = document.getElementById('tasksList');
+  ul.innerHTML = '';
+  tasks.forEach((task, idx) => {
+    ul.innerHTML += `
+      <li class="flex items-center gap-3">
+        <input type="checkbox" ${task.done ? 'checked' : ''} onchange="toggleTask(${idx})">
+        <span class="${task.done ? 'line-through text-gray-400' : ''}">${task.text}</span>
+        <button class="edit-btn" onclick="editTask(${idx})"><i class="ri-edit-line"></i></button>
+        <button class="edit-btn" onclick="deleteTask(${idx})"><i class="ri-delete-bin-line"></i></button>
+      </li>
+    `;
+  });
+}
+function renderAppointments() {
+  const ul = document.getElementById('appointmentsList');
+  ul.innerHTML = '';
+  appointments.forEach((a, idx) => {
+    ul.innerHTML += `
+      <li class="flex items-center justify-between gap-3">
+        <div>
+          <span class="font-medium">${a.name}</span>
+          <span class="text-sm text-gray-500 ml-2">${a.type}</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-sm text-gray-500">${a.time}</span>
+          <button class="edit-btn" onclick="editAppointment(${idx})"><i class="ri-edit-line"></i></button>
+          <button class="edit-btn" onclick="deleteAppointment(${idx})"><i class="ri-delete-bin-line"></i></button>
+        </div>
+      </li>
+    `;
+  });
+}
+function renderPatients() {
+  const ul = document.getElementById('patientsList');
+  ul.innerHTML = '';
+  patients.forEach((p, idx) => {
+    ul.innerHTML += `
+      <li class="flex items-center justify-between gap-3">
+        <div>
+          <span class="font-medium">${p.name}</span>
+          <span class="text-sm text-gray-500 ml-2">Age: ${p.age}</span>
+          <span class="text-sm text-gray-500 ml-2">${p.condition}</span>
+        </div>
+        <div>
+          <button class="edit-btn" onclick="editPatient(${idx})"><i class="ri-edit-line"></i></button>
+          <button class="edit-btn" onclick="deletePatient(${idx})"><i class="ri-delete-bin-line"></i></button>
+        </div>
+      </li>
+    `;
+  });
+}
+function renderReports() {
+  const ul = document.getElementById('reportsList');
+  ul.innerHTML = '';
+  reports.forEach((r, idx) => {
+    ul.innerHTML += `
+      <li class="flex items-center justify-between gap-3">
+        <div>
+          <span class="font-medium">${r.title}</span>
+          <span class="text-sm text-gray-500 ml-2">${r.status}</span>
+        </div>
+        <div>
+          <button class="edit-btn" onclick="editReport(${idx})"><i class="ri-edit-line"></i></button>
+          <button class="edit-btn" onclick="deleteReport(${idx})"><i class="ri-delete-bin-line"></i></button>
+        </div>
+      </li>
+    `;
+  });
+}
+function renderNotifications() {
+  const ul = document.getElementById('notificationsList');
+  ul.innerHTML = '';
+  notifications.forEach((n, idx) => {
+    ul.innerHTML += `
+      <li class="flex items-center justify-between gap-3">
+        <div>
+          <span>${n.message}</span>
+          <span class="text-sm text-gray-500 ml-2">${n.time}</span>
+        </div>
+        <div>
+          <button class="edit-btn" onclick="editNotif(${idx})"><i class="ri-edit-line"></i></button>
+          <button class="edit-btn" onclick="deleteNotif(${idx})"><i class="ri-delete-bin-line"></i></button>
+        </div>
+      </li>
+    `;
+  });
+}
+function renderProfile() {
+  document.getElementById('profileName').textContent = profile.name;
+  document.getElementById('profileTitle').textContent = profile.title;
+  document.getElementById('profileEmail').innerHTML = `<i class="ri-mail-line"></i> ${profile.email}`;
+  document.getElementById('profileLocation').innerHTML = `<i class="ri-map-pin-line"></i> ${profile.location}`;
+  document.getElementById('profilePhone').innerHTML = `<i class="ri-phone-line"></i> ${profile.phone}`;
+}
 
-  <!-- This is where modals will get injected -->
-  <div id="modalContainer"></div>
+// Edit/Add/Delete functions (modals)
+function openModal(html) {
+  const modalBg = document.createElement('div');
+  modalBg.className = 'modal-bg';
+  modalBg.innerHTML = `<div class="modal relative">${html}<button class="close-modal" onclick="closeModal()"><i class="ri-close-line"></i></button></div>`;
+  document.getElementById('modalContainer').appendChild(modalBg);
+}
+function closeModal() {
+  document.getElementById('modalContainer').innerHTML = '';
+}
 
-  <!-- ✅ Link your JavaScript here -->
-  <script src="script.js" defer></script>
+// Tasks
+function openTaskModal(idx = null) {
+  let value = idx !== null ? tasks[idx].text : '';
+  let done = idx !== null ? tasks[idx].done : false;
+  openModal(`
+    <h3 class="text-xl font-bold mb-4">${idx !== null ? 'Edit' : 'Add'} Task</h3>
+    <form onsubmit="event.preventDefault(); saveTask(${idx});">
+      <label>Task</label>
+      <input type="text" id="taskInput" value="${value}" required>
+      <label class="flex items-center gap-2 mt-2"><input type="checkbox" id="taskDone" ${done ? 'checked' : ''}>Done</label>
+      <button type="submit" class="add-btn mt-4">${idx !== null ? 'Save' : 'Add'}</button>
+    </form>
+  `);
+}
+function saveTask(idx) {
+  const text = document.getElementById('taskInput').value;
+  const done = document.getElementById('taskDone').checked;
+  if (idx !== null && idx >= 0) {
+    tasks[idx] = { text, done };
+  } else {
+    tasks.push({ text, done });
+  }
+  closeModal();
+  renderTasks();
+}
+function editTask(idx) { openTaskModal(idx); }
+function deleteTask(idx) { tasks.splice(idx, 1); renderTasks(); }
+function toggleTask(idx) { tasks[idx].done = !tasks[idx].done; renderTasks(); }
+
+// Appointments
+function openAppointmentModal(idx = null) {
+  let a = idx !== null ? appointments[idx] : { name: '', type: '', time: '' };
+  openModal(`
+    <h3 class="text-xl font-bold mb-4">${idx !== null ? 'Edit' : 'Add'} Appointment</h3>
+    <form onsubmit="event.preventDefault(); saveAppointment(${idx});">
+      <label>Name</label>
+      <input type="text" id="appointmentName" value="${a.name}" required>
+      <label>Type</label>
+      <input type="text" id="appointmentType" value="${a.type}" required>
+      <label>Time</label>
+      <input type="text" id="appointmentTime" value="${a.time}" required>
+      <button type="submit" class="add-btn mt-4">${idx !== null ? 'Save' : 'Add'}</button>
+    </form>
+  `);
+}
+function saveAppointment(idx) {
+  const name = document.getElementById('appointmentName').value;
+  const type = document.getElementById('appointmentType').value;
+  const time = document.getElementById('appointmentTime').value;
+  if (idx !== null && idx >= 0) {
+    appointments[idx] = { name, type, time };
+  } else {
+    appointments.push({ name, type, time });
+  }
+  closeModal();
+  renderAppointments();
+}
+function editAppointment(idx) { openAppointmentModal(idx); }
+function deleteAppointment(idx) { appointments.splice(idx, 1); renderAppointments(); }
+
+// Patients
+function openPatientModal(idx = null) {
+  let p = idx !== null ? patients[idx] : { name: '', age: '', condition: '' };
+  openModal(`
+    <h3 class="text-xl font-bold mb-4">${idx !== null ? 'Edit' : 'Add'} Patient</h3>
+    <form onsubmit="event.preventDefault(); savePatient(${idx});">
+      <label>Name</label>
+      <input type="text" id="patientName" value="${p.name}" required>
+      <label>Age</label>
+      <input type="number" id="patientAge" value="${p.age}" required>
+      <label>Condition</label>
+      <input type="text" id="patientCondition" value="${p.condition}" required>
+      <button type="submit" class="add-btn mt-4">${idx !== null ? 'Save' : 'Add'}</button>
+    </form>
+  `);
+}
+function savePatient(idx) {
+  const name = document.getElementById('patientName').value;
+  const age = document.getElementById('patientAge').value;
+  const condition = document.getElementById('patientCondition').value;
+  if (idx !== null && idx >= 0) {
+    patients[idx] = { name, age, condition };
+  } else {
+    patients.push({ name, age, condition });
+  }
+  closeModal();
+  renderPatients();
+}
+function editPatient(idx) { openPatientModal(idx); }
+function deletePatient(idx) { patients.splice(idx, 1); renderPatients(); }
+
+// Reports
+function openReportModal(idx = null) {
+  let r = idx !== null ? reports[idx] : { title: '', status: '' };
+  openModal(`
+    <h3 class="text-xl font-bold mb-4">${idx !== null ? 'Edit' : 'Add'} Report</h3>
+    <form onsubmit="event.preventDefault(); saveReport(${idx});">
+      <label>Title</label>
+      <input type="text" id="reportTitle" value="${r.title}" required>
+      <label>Status</label>
+      <input type="text" id="reportStatus" value="${r.status}" required>
+      <button type="submit" class="add-btn mt-4">${idx !== null ? 'Save' : 'Add'}</button>
+    </form>
+  `);
+}
+function saveReport(idx) {
+  const title = document.getElementById('reportTitle').value;
+  const status = document.getElementById('reportStatus').value;
+  if (idx !== null && idx >= 0) {
+    reports[idx] = { title, status };
+  } else {
+    reports.push({ title, status });
+  }
+  closeModal();
+  renderReports();
+}
+function editReport(idx) { openReportModal(idx); }
+function deleteReport(idx) { reports.splice(idx, 1); renderReports(); }
+
+// Notifications
+function openNotifModal(idx = null) {
+  let n = idx !== null ? notifications[idx] : { message: '', time: '' };
+  openModal(`
+    <h3 class="text-xl font-bold mb-4">${idx !== null ? 'Edit' : 'Add'} Notification</h3>
+    <form onsubmit="event.preventDefault(); saveNotif(${idx});">
+      <label>Message</label>
+      <input type="text" id="notifMessage" value="${n.message}" required>
+      <label>Time</label>
+      <input type="text" id="notifTime" value="${n.time}" required>
+      <button type="submit" class="add-btn mt-4">${idx !== null ? 'Save' : 'Add'}</button>
+    </form>
+  `);
+}
+function saveNotif(idx) {
+  const message = document.getElementById('notifMessage').value;
+  const time = document.getElementById('notifTime').value;
+  if (idx !== null && idx >= 0) {
+    notifications[idx] = { message, time };
+  } else {
+    notifications.push({ message, time });
+  }
+  closeModal();
+  renderNotifications();
+}
+function editNotif(idx) { openNotifModal(idx); }
+function deleteNotif(idx) { notifications.splice(idx, 1); renderNotifications(); }
+
+// Profile
+function openProfileModal() {
+  openModal(`
+    <h3 class="text-xl font-bold mb-4">Edit Profile</h3>
+    <form onsubmit="event.preventDefault(); saveProfile();">
+      <label>Name</label>
+      <input type="text" id="profileNameInput" value="${profile.name}" required>
+      <label>Title</label>
+      <input type="text" id="profileTitleInput" value="${profile.title}" required>
+      <label>Email</label>
+      <input type="email" id="profileEmailInput" value="${profile.email}" required>
+      <label>Location</label>
+      <input type="text" id="profileLocationInput" value="${profile.location}" required>
+      <label>Phone</label>
+      <input type="text" id="profilePhoneInput" value="${profile.phone}" required>
+      <button type="submit" class="add-btn mt-4">Save</button>
+    </form>
+  `);
+}
+function saveProfile() {
+  profile.name = document.getElementById('profileNameInput').value;
+  profile.title = document.getElementById('profileTitleInput').value;
+  profile.email = document.getElementById('profileEmailInput').value;
+  profile.location = document.getElementById('profileLocationInput').value;
+  profile.phone = document.getElementById('profilePhoneInput').value;
+  closeModal();
+  renderProfile();
+}
+
+// Cards edit
+function openEditModal(type) {
+  let value;
+  switch(type) {
+    case 'appointments':
+      value = document.getElementById('appointmentsCount').textContent;
+      break;
+    case 'patients':
+      value = document.getElementById('patientsCount').textContent;
+      break;
+    case 'reports':
+      value = document.getElementById('reportsCount').textContent;
+      break;
+    case 'analytics':
+      value = document.getElementById('analyticsCount').textContent;
+      break;
+  }
+  openModal(`
+    <h3 class="text-xl font-bold mb-4">Edit ${type.charAt(0).toUpperCase() + type.slice(1)}</h3>
+    <form onsubmit="event.preventDefault(); saveCard('${type}');">
+      <label>Value</label>
+      <input type="text" id="cardValueInput" value="${value}" required>
+      <button type="submit" class="add-btn mt-4">Save</button>
+    </form>
+  `);
+}
+function saveCard(type) {
+  const value = document.getElementById('cardValueInput').value;
+  switch(type) {
+    case 'appointments':
+      document.getElementById('appointmentsCount').textContent = value;
+      break;
+    case 'patients':
+      document.getElementById('patientsCount').textContent = value;
+      break;
+    case 'reports':
+      document.getElementById('reportsCount').textContent = value;
+      break;
+    case 'analytics':
+      document.getElementById('analyticsCount').textContent = value;
+      break;
+  }
+  closeModal();
+}
+
+// Quick Add
+document.getElementById('quickAddBtn').onclick = function() {
+  openModal(`
+    <h3 class="text-xl font-bold mb-4">Quick Add</h3>
+    <div class="flex flex-col gap-3">
+      <button class="add-btn" onclick="closeModal();openTaskModal()">Task</button>
+      <button class="add-btn" onclick="closeModal();openAppointmentModal()">Appointment</button>
+      <button class="add-btn" onclick="closeModal();openPatientModal()">Patient</button>
+      <button class="add-btn" onclick="closeModal();openReportModal()">Report</button>
+      <button class="add-btn" onclick="closeModal();openNotifModal()">Notification</button>
+    </div>
+  `);
+};
+
+// Theme Switcher
+document.querySelector('.theme-switch').onclick = function() {
+  document.body.classList.toggle('dark');
+  if(document.body.classList.contains('dark')) {
+    document.body.style.background = '#18181b';
+    document.body.style.color = '#e5e7eb';
+  } else {
+    document.body.style.background = '#f6f8fa';
+    document.body.style.color = '#334155';
+  }
+};
+
+// Search
+document.getElementById('searchInput').oninput = function(e) {
+  const q = e.target.value.toLowerCase();
+  // Filter tasks, appointments, patients, reports, notifications
+  function filterList(list, arr, renderFn) {
+    if (!q) { renderFn(); return; }
+    const filtered = arr.filter(item => Object.values(item).some(v => String(v).toLowerCase().includes(q)));
+    renderFn(filtered);
+  }
+  renderTasks = function(filtered = null) {
+    const ul = document.getElementById('tasksList');
+    ul.innerHTML = '';
+    (filtered || tasks).forEach((task, idx) => {
+      ul.innerHTML += `
+        <li class="flex items-center gap-3">
+          <input type="checkbox" ${task.done ? 'checked' : ''} onchange="toggleTask(${idx})">
+          <span class="${task.done ? 'line-through text-gray-400' : ''}">${task.text}</span>
+          <button class="edit-btn" onclick="editTask(${idx})"><i class="ri-edit-line"></i></button>
+          <button class="edit-btn" onclick="deleteTask(${idx})"><i class="ri-delete-bin-line"></i></button>
+        </li>
+      `;
+    });
+  };
+  renderAppointments = function(filtered = null) {
+    const ul = document.getElementById('appointmentsList');
+    ul.innerHTML = '';
+    (filtered || appointments).forEach((a, idx) => {
+      ul.innerHTML += `
+        <li class="flex items-center justify-between gap-3">
+          <div>
+            <span class="font-medium">${a.name}</span>
+            <span class="text-sm text-gray-500 ml-2">${a.type}</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-sm text-gray-500">${a.time}</span>
+            <button class="edit-btn" onclick="editAppointment(${idx})"><i class="ri-edit-line"></i></button>
+            <button class="edit-btn" onclick="deleteAppointment(${idx})"><i class="ri-delete-bin-line"></i></button>
+          </div>
+        </li>
+      `;
+    });
+  };
+  renderPatients = function(filtered = null) {
+    const ul = document.getElementById('patientsList');
+    ul.innerHTML = '';
+    (filtered || patients).forEach((p, idx) => {
+      ul.innerHTML += `
+        <li class="flex items-center justify-between gap-3">
+          <div>
+            <span class="font-medium">${p.name}</span>
+            <span class="text-sm text-gray-500 ml-2">Age: ${p.age}</span>
+            <span class="text-sm text-gray-500 ml-2">${p.condition}</span>
+          </div>
+          <div>
+            <button class="edit-btn" onclick="editPatient(${idx})"><i class="ri-edit-line"></i></button>
+            <button class="edit-btn" onclick="deletePatient(${idx})"><i class="ri-delete-bin-line"></i></button>
+          </div>
+        </li>
+      `;
+    });
+  };
+  renderReports = function(filtered = null) {
+    const ul = document.getElementById('reportsList');
+    ul.innerHTML = '';
+    (filtered || reports).forEach((r, idx) => {
+      ul.innerHTML += `
+        <li class="flex items-center justify-between gap-3">
+          <div>
+            <span class="font-medium">${r.title}</span>
+            <span class="text-sm text-gray-500 ml-2">${r.status}</span>
+          </div>
+          <div>
+            <button class="edit-btn" onclick="editReport(${idx})"><i class="ri-edit-line"></i></button>
+            <button class="edit-btn" onclick="deleteReport(${idx})"><i class="ri-delete-bin-line"></i></button>
+          </div>
+        </li>
+      `;
+    });
+  };
+  renderNotifications = function(filtered = null) {
+    const ul = document.getElementById('notificationsList');
+    ul.innerHTML = '';
+    (filtered || notifications).forEach((n, idx) => {
+      ul.innerHTML += `
+        <li class="flex items-center justify-between gap-3">
+          <div>
+            <span>${n.message}</span>
+            <span class="text-sm text-gray-500 ml-2">${n.time}</span>
+          </div>
+          <div>
+            <button class="edit-btn" onclick="editNotif(${idx})"><i class="ri-edit-line"></i></button>
+            <button class="edit-btn" onclick="deleteNotif(${idx})"><i class="ri-delete-bin-line"></i></button>
+          </div>
+        </li>
+      `;
+    });
+  };
+  filterList('tasks', tasks, renderTasks);
+  filterList('appointments', appointments, renderAppointments);
+  filterList('patients', patients, renderPatients);
+  filterList('reports', reports, renderReports);
+  filterList('notifications', notifications, renderNotifications);
+};
+
+// Initial render
+renderTasks();
+renderAppointments();
+renderPatients();
+renderReports();
+renderNotifications();
+renderProfile();
+
+// Sidebar navigation (demo only)
+document.getElementById('profileBtn').onclick = function() { document.querySelector('main').scrollTo(0, document.querySelector('main').scrollHeight); };
+document.getElementById('appointmentsBtn').onclick = function() { document.getElementById('appointmentsList').scrollIntoView({behavior:'smooth'}); };
+document.getElementById('patientsBtn').onclick = function() { document.getElementById('patientsList').scrollIntoView({behavior:'smooth'}); };
+document.getElementById('reportsBtn').onclick = function() { document.getElementById('reportsList').scrollIntoView({behavior:'smooth'}); };
+document.getElementById('tasksBtn').onclick = function() { document.getElementById('tasksList').scrollIntoView({behavior:'smooth'}); };
+document.getElementById('analyticsBtn').onclick = function() { window.scrollTo({top:0,behavior:'smooth'}); };
+document.getElementById('notificationsBtn').onclick = function() { document.getElementById('notificationsList').scrollIntoView({behavior:'smooth'}); };
+document.getElementById('settingsBtn').onclick = function() { openProfileModal(); };
+document.getElementById('logoutBtn').onclick = function() { window.location.reload(); };
+</script>
 </body>
 </html>
         
